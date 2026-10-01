@@ -1,0 +1,20 @@
+{
+  "mode": "built-in image_gen",
+  "prompts": [
+    {
+      "key": "desk-objects",
+      "transparent_background": true,
+      "prompt": "Use case: product-mockup\nAsset type: 1536x1024 transparent PNG asset sheet for independent website motion elements\nPrimary request: Six isolated photorealistic designer desk stationery objects, top-down product photography, arranged evenly in exactly a three-column two-row grid. Each object must be entirely within its own 512x512 cell with generous transparent padding and no touching.\nSubjects: top left cobalt-blue handled open metal scissors at a slight angle; top center pink manila folder with one white paper peeking out and a small orange circular sticker; top right a red sharpened wooden pencil on a diagonal; bottom left a silver and black binder clip; bottom center a crumpled cream paper ball; bottom right a pair of folded tortoiseshell eyeglasses viewed top-down.\nMaterials: authentic tactile paper, polished metal and plastic, realistic product photography.\nLighting: subtle soft product shadows localized directly around each object.\nConstraints: transparent background with genuine alpha, each object isolated, no background, no grid lines, no words, no watermark. Six distinct objects only, arranged exactly as specified, generous padding around every object."
+    },
+    {
+      "key": "forme-campaign",
+      "transparent_background": false,
+      "prompt": "Use case: ads-marketing\nAsset type: landscape 1536x1024 luxury editorial product still life for a concept fashion store named FORME.\nPrimary request: one burgundy leather sculptural handbag with a silver ring on a warm rich ochre yellow background.\nStyle: minimalist French fashion campaign, photorealistic luxury editorial still life, authentic supple burgundy leather texture and reflective silver.\nComposition: landscape, product large at center-right with generous negative space around it.\nLighting: direct flash with a soft shadow.\nConstraints: no text, no logo, no watermark, no interface, no additional objects."
+    },
+    {
+      "key": "sonar-campaign",
+      "transparent_background": false,
+      "prompt": "Use case: ads-marketing\nAsset type: landscape 1536x1024 campaign image for audio e-commerce concept SONAR.\nPrimary request: high-end photorealistic cobalt blue and chrome over-ear headphones floating over a saturated cornflower blue background with a tiny lime light accent.\nComposition: frontal three-quarter shot, strong sculptural silhouette, crisp reflective material, bold independent designer art direction.\nLighting: polished studio campaign lighting, high-end physical material realism, tiny lime highlight accent.\nConstraints: no text, no logo, no interface, no watermark, no additional products."
+    }
+  ]
+}
