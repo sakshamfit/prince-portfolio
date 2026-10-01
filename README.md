@@ -15,14 +15,11 @@ Everything is plain HTML — search and replace inside `dist/` and you are done.
 
 ## Prince's image
 
-Every picture of Prince is built from one source photograph, `AirBrush_20260317004701.jpg.jpeg` in the repository root. That file is both the original for the crops and the reference for the generated scenes, so his face stays identical everywhere.
+Every picture of Prince on the site is the same generated studio portrait, `dist/assets/prince-studio.webp` — he is standing on the forest-green backdrop, and the same file is used for the hero print, the work-section frame, the about-page cards, the case-study pull quotes and the round contact sticker. Wise framing (`object-position` in `expanded.css`) keeps his face readable inside the square, wide and circular crops.
 
-- `prince-hero.webp` — wide night frame, pinned into the work section
-- `prince-portrait.webp`, `prince-tight.webp`, `prince-face.webp`, `prince-full.webp` — crops of the original photograph used as the hero polaroid, the contact sticker, the about-page note and the photo cards on the work and about headings
-- `prince-studio.webp` — studio scene, blended into the hero backdrop and reused on the about page and the Daylight case study
-- `prince-edit-bay.webp`, `prince-edit-gear.webp` — the edit-suite scenes inside the timeline section
+`AirBrush_20260317004701.jpg.jpeg` in the repository root is the reference photograph the portrait was generated from. It is deliberately **not** part of the site: the deploy publishes `dist/` only, so no crop of the original photograph ships. Keep the file if you want to generate more scenes against his face; see `asset-prompts.json`.
 
-The unedited generator output (PNG) stays in `raw-gen/`, which is git-ignored and not part of the deployed site. To add another crop, use ImageMagick (`convert source.jpg -crop WxH+X+Y +repage -quality 80 dist/assets/name.webp`); the prompts and crop geometry are recorded in `asset-prompts.json`.
+Two further generated scenes, `prince-edit-bay.webp` and `prince-edit-gear.webp`, show him at the edit desk and in the monitor light — they fill the "Inside the timeline" section.
 
 ## Run locally
 

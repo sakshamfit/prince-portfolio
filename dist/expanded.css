@@ -266,16 +266,16 @@ main { overflow:clip; }
 /* Hero — he stands on the cutting mat, edges blended into the green */
 .hero-portrait { position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
 .portrait-print { position:absolute; left:-30px; bottom:70px; width:clamp(168px,15.5vw,232px); padding:11px; background:#f6f1de; box-shadow:11px 18px 28px #061f2852; transform:rotate(-3.4deg); }
-.portrait-print>img { width:100%; aspect-ratio:.66; object-fit:cover; object-position:50% 8%; }
+.portrait-print>img { width:100%; aspect-ratio:.72; object-fit:cover; object-position:50% 50%; }
 .portrait-print>.tape { width:104px; height:29px; top:-13px; left:calc(50% - 52px); rotate:-2deg; }
 .hero-caption { left:20%; }
 .hero-ball { left:16%; bottom:64px; }
 .hero-note.hero-polaroid { right:6%; bottom:132px; width:200px; padding:11px 11px 0; background:#f6f1de; color:var(--ink); transform:rotate(6deg); }
-.hero-polaroid>img { aspect-ratio:1; object-fit:cover; object-position:50% 22%; }
+.hero-polaroid>img { aspect-ratio:1; object-fit:cover; object-position:50% 2%; }
 
 /* Work — a wide frame from the night shoot */
 .work-feature { position:relative; margin:62px auto 6px; max-width:1190px; padding:14px 14px 0; background:var(--cream); color:var(--ink); box-shadow:12px 19px 26px #061f2852; transform:rotate(-1.1deg); }
-.work-feature>img { width:100%; aspect-ratio:1.78; object-fit:cover; object-position:50% 20%; }
+.work-feature>img { width:100%; aspect-ratio:1.78; object-fit:cover; object-position:50% 12%; }
 .work-feature>figcaption { display:flex; justify-content:space-between; gap:16px; padding:14px 5px 16px; font-size:.68rem; font-weight:700; letter-spacing:.09em; }
 .work-feature>.tape { width:150px; height:38px; top:-16px; left:calc(50% - 75px); rotate:-2deg; }
 
@@ -288,7 +288,7 @@ main { overflow:clip; }
 
 /* Contact — round sticker */
 .contact-photo { width:138px; top:46px; right:26px; --r:6deg; }
-.contact-photo img { border-radius:50%; aspect-ratio:1; object-fit:cover; object-position:50% 16%; border:5px solid #f6f1de; }
+.contact-photo img { border-radius:50%; aspect-ratio:1; object-fit:cover; object-position:50% 6%; border:5px solid #f6f1de; }
 
 /* Inner page headings — a photo card instead of a loose prop */
 .page-prop-photo { width:236px; top:74px; right:4%; }

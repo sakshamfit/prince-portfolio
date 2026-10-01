@@ -38,14 +38,9 @@
     }
   ],
   "derived_assets": {
-    "note": "All files in dist/assets are WebP, encoded from the photograph or the generated scenes above (ImageMagick convert -quality 80-84).",
-    "prince-hero.webp": "1384x875 crop of the photograph, +0+430 — wide night frame in the work section",
-    "prince-portrait.webp": "1000x1333 crop of the photograph, +200+150, resized to 900x1200 — pinned to the about note",
-    "prince-tight.webp": "800x1000 crop of the photograph, +300+330 — photo card on the about page and in the FORME case study",
-    "prince-face.webp": "480x480 crop of the photograph, +450+450, resized to 400x400 — hero polaroid and contact sticker",
-    "prince-full.webp": "full frame of the photograph, resized to 1000x1480 — photo card on the work page",
-    "prince-studio.webp": "generated studio portrait, resized to 896x1200 — hero backdrop, about page and the Daylight case study",
+    "note": "The site ships only generated scenes. AirBrush_20260317004701.jpg.jpeg stays in the repository root as the generation reference and is never deployed — the deploy publishes dist/ only.",
+    "prince-studio.webp": "generated studio portrait, resized to 896x1200 — used for every picture of Prince: hero print, work-section frame, about page, case-study pull quotes and the round contact sticker",
     "prince-edit-bay.webp": "generated edit-suite scene, 1264x848 — inside the timeline section",
-    "prince-edit-gear.webp": "700x530 crop of the generated edit-suite close-up, +790+120, resized to 774x700 — edit-room detail print"
+    "prince-edit-gear.webp": "generated edit-suite close-up, 700x530 crop at +790+120 resized to 774x700 — edit-room detail print"
   }
 }
