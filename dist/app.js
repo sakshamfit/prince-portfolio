@@ -204,6 +204,50 @@
       letter.style.color=reset?'':i%2?'#8b314e':'#343a74';
     });
   });
+  // The clip wall: a poster first, the Drive player only when someone presses play.
+  const clipTiles=[...document.querySelectorAll('.clip')];
+  function closeClip(tile){
+    if(!tile||!tile.classList.contains('is-playing'))return false;
+    tile.querySelector('.clip-player')?.replaceChildren();
+    const opener=tile.querySelector('.clip-open'),closer=tile.querySelector('.clip-close');
+    tile.classList.remove('is-playing');
+    if(opener)opener.hidden=false;
+    if(closer)closer.hidden=true;
+    return true;
+  }
+  clipTiles.forEach(tile=>{
+    const opener=tile.querySelector('.clip-open'),closer=tile.querySelector('.clip-close'),holder=tile.querySelector('.clip-player'),id=opener?.dataset.driveId;
+    if(!opener||!holder||!id)return;
+    opener.addEventListener('click',event=>{
+      event.preventDefault();
+      clipTiles.forEach(other=>{if(other!==tile)closeClip(other);});
+      const player=document.createElement('iframe');
+      player.src=`https://drive.google.com/file/d/${id}/preview?autoplay=1`;
+      player.title=`${tile.querySelector('h3')?.textContent||'Client film'} — video`;
+      player.allow='autoplay; fullscreen; encrypted-media; picture-in-picture';
+      player.setAttribute('allowfullscreen','');
+      holder.replaceChildren(player);
+      tile.classList.add('is-playing');
+      opener.hidden=true;
+      if(closer){closer.hidden=false;closer.focus();}
+      requestAnimationFrame(measure);
+    });
+    closer?.addEventListener('click',()=>{
+      if(closeClip(tile)){opener.focus();requestAnimationFrame(measure);}
+    });
+  });
+  // If Drive will not hand over a still (private file, blocked host), fall back to a titled card.
+  document.addEventListener('error',event=>{
+    const target=event.target;
+    if(target?.classList?.contains('clip-poster'))target.closest('.clip')?.classList.add('is-posterless');
+  },true);
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Escape')return;
+    clipTiles.forEach(tile=>{
+      if(closeClip(tile)){tile.querySelector('.clip-open')?.focus();requestAnimationFrame(measure);}
+    });
+  });
+
   const palettes={pink:['#e8a4bb','#164e38'],blue:['#214be5','#e0f486'],yellow:['#efd881','#631f37'],purple:['#b9a2e0','#3e245e']};
   document.querySelectorAll('[data-palette]').forEach(button=>button.addEventListener('click',()=>{
     document.querySelectorAll('[data-palette]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
