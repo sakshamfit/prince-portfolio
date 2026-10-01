@@ -2,7 +2,7 @@
 
 A responsive, six-page portfolio for **Prince, a video editor**, built on the green cutting-mat design language: tactile studio stationery, a scroll-scrubbed three-step process, a familiar edit-bay visual, and motion that stays out of the way. Serve the `dist` directory with any static web server. There is no build step and no runtime dependency. Links use root-relative paths.
 
-The homepage lives in `dist/index.html`; the archive and biography are `dist/work.html` and `dist/about.html`. Three complete case studies live in `dist/projects/`: FORME (fashion campaign film), SONAR (brand film with sound and motion) and Daylight (product launch film). Shared styles and interactions are in `dist/styles.css`, `dist/expanded.css` and `dist/app.js`. Optimized original imagery—including edit-suite and editing-detail photographs—and self-hosted fonts live in `dist/assets`.
+The homepage lives in `dist/index.html`; the archive and biography are `dist/work.html` and `dist/about.html`. Three complete case studies live in `dist/projects/`: FORME (fashion campaign film), SONAR (brand film with sound and motion) and Daylight (product launch film). Shared styles and interactions are in `dist/styles.css`, `dist/expanded.css` and `dist/app.js`. Prince's own photography, the reference-guided studio scenes, the stationery artwork and the self-hosted fonts live in `dist/assets`.
 
 ## Editing the content
 
@@ -12,6 +12,17 @@ Everything is plain HTML — search and replace inside `dist/` and you are done.
 - **Portfolio copy:** project descriptions, experience and toolkit entries are illustrative portfolio copy. Case studies are framed as independent concepts, not commissioned work.
 - **Contact:** the site uses the illustrative address `hello@princeedits.com` in `dist/index.html`. Replace it with the real address before sharing publicly.
 - **Location:** the site says "Remote-first · working worldwide" rather than naming a city — swap that anywhere it appears in `dist/index.html` and `dist/about.html` if you want a real location.
+
+## Prince's image
+
+Every picture of Prince is built from one source photograph, `AirBrush_20260317004701.jpg.jpeg` in the repository root. That file is both the original for the crops and the reference for the generated scenes, so his face stays identical everywhere.
+
+- `prince-hero.webp` — wide night frame, pinned into the work section
+- `prince-portrait.webp`, `prince-tight.webp`, `prince-face.webp`, `prince-full.webp` — crops of the original photograph used as the hero polaroid, the contact sticker, the about-page note and the photo cards on the work and about headings
+- `prince-studio.webp` — studio scene, blended into the hero backdrop and reused on the about page and the Daylight case study
+- `prince-edit-bay.webp`, `prince-edit-gear.webp` — the edit-suite scenes inside the timeline section
+
+The unedited generator output (PNG) stays in `raw-gen/`, which is git-ignored and not part of the deployed site. To add another crop, use ImageMagick (`convert source.jpg -crop WxH+X+Y +repage -quality 80 dist/assets/name.webp`); the prompts and crop geometry are recorded in `asset-prompts.json`.
 
 ## Run locally
 
