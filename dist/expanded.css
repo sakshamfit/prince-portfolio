@@ -318,20 +318,15 @@ main { overflow:clip; }
   .quote-photo { position:relative; right:auto; top:auto; translate:0 0; rotate:0deg; width:150px; margin:32px 0 0 auto; }
 }
 
-/* ---------- The clip wall: real client films, embedded from Drive ---------- */
-.clip-wall { position:relative; display:grid; grid-template-columns:repeat(3,1fr); gap:58px 3.4%; max-width:1300px; margin:66px auto 0; align-items:start; }
-.clip { position:relative; }
-.clip-feature { grid-column:span 2; }
-.clip-feature .clip-media { aspect-ratio:2/1; }
+/* ---------- The clip wall: real client reels, in full portrait frames ---------- */
+.clip-wall { position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:58px 3.4%; max-width:1300px; margin:66px auto 0; align-items:start; }
+.clip { position:relative; min-width:0; }
 .clip-frame { position:relative; padding:14px 14px 0; background:var(--cream); color:var(--ink); box-shadow:10px 17px 22px #061f2852; transition:transform .6s var(--ease),box-shadow .6s var(--ease); }
 .clip:hover .clip-frame { transform:translateY(-6px); box-shadow:14px 24px 30px #061f2861; }
 .js-ready .clip.reveal { translate:none; transition:opacity .8s var(--ease),translate 1.15s cubic-bezier(.16,.83,.2,1),scale 1.15s cubic-bezier(.16,.83,.2,1); }
 .js-ready .clip.reveal:not(.is-visible) { opacity:0; translate:0 62px; scale:.975; }
-.clip-media { position:relative; aspect-ratio:16/9; overflow:hidden; background:#0b3227; }
-.clip-poster { width:100%; height:100%; object-fit:cover; transform-origin:50% 45%; animation:clip-drift 30s ease-in-out infinite alternate; }
-@keyframes clip-drift { from { transform:scale(1.012); } to { transform:scale(1.075) translate3d(-1.3%,-1.1%,0); } }
-.clip:nth-child(2n) .clip-poster { animation-duration:36s; animation-delay:-11s; }
-.clip:nth-child(3n) .clip-poster { animation-duration:25s; animation-delay:-17s; }
+.clip-media { position:relative; aspect-ratio:9/16; overflow:hidden; background:#0b3227; }
+.clip-poster { width:100%; height:100%; object-fit:contain; }
 .clip-poster.is-missing { display:none; }
 .clip-shade { position:absolute; inset:0; pointer-events:none; background:linear-gradient(to top,#062019cf,#0620191f 48%,transparent 74%); transition:opacity .4s; }
 .clip-open { position:absolute; inset:0; display:flex; align-items:flex-end; padding:16px; }
@@ -342,27 +337,34 @@ main { overflow:clip; }
 .clip-close { position:absolute; z-index:5; top:12px; right:12px; background:var(--cream); color:var(--ink); border:0; font-size:.71rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:9px 13px; box-shadow:3px 4px 0 #0b302961; transition:background .3s; }
 .clip-close:hover { background:var(--yellow); }
 .clip-player { position:absolute; inset:0; z-index:4; background:#04120b; }
-.clip-player iframe { display:block; width:100%; height:100%; border:0; }
+.clip-player video,.clip-player iframe { display:block; width:100%; height:100%; border:0; object-fit:contain; }
+.clip-player[hidden],.clip-open[hidden],.clip-close[hidden],.clip-status[hidden] { display:none; }
+.clip-status { position:absolute; inset:25% 10% 35%; display:grid; place-items:center; padding:15px; color:var(--cream); background:#04120be6; font-size:.8rem; line-height:1.5; text-align:center; pointer-events:none; }
+.clip-wall .project-caption { gap:10px; align-items:flex-start; }
+.clip-wall .project-caption>div { min-width:0; }
+.clip-wall .project-caption h3 { font-size:1.35rem; }
+.clip-wall .project-number { font-size:2rem; flex-shrink:0; }
+.clip-source { display:inline-block; margin-top:9px; padding:3px 0; font-size:.73rem; border-bottom:1px solid currentColor; }
+.clip-source:hover { opacity:.65; }
 .clip.is-playing .clip-open,.clip.is-playing .clip-shade,.clip.is-playing .clip-flag { display:none; }
 .clip.is-posterless .clip-media:before { content:attr(data-title) " ✳"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:8% 14% 22%; font-family:Bookman,Georgia,serif; font-style:italic; font-weight:700; font-size:clamp(1.4rem,2.5vw,2.2rem); color:#f6f1deda; text-align:center; }
 .clip.is-posterless .clip-media { background:repeating-linear-gradient(135deg,#0b3227 0 12px,#0e3b2e 12px 24px); }
-.clip-note { position:relative; align-self:start; width:100%; display:flex; flex-direction:column; justify-content:space-between; gap:24px; padding:32px 27px 26px; background:var(--yellow); color:var(--ink); box-shadow:10px 17px 22px #061f2852; rotate:-1.5deg; }
+.clip-note { position:relative; order:1; align-self:start; width:100%; display:flex; flex-direction:column; justify-content:space-between; gap:24px; padding:32px 27px 26px; background:var(--yellow); color:var(--ink); box-shadow:10px 17px 22px #061f2852; rotate:-1.5deg; }
 .clip-note strong { display:block; font-family:Bookman,Georgia,serif; font-style:italic; font-size:4.6rem; line-height:.88; letter-spacing:-.05em; }
 .clip-note-label { display:block; font-size:.71rem; font-weight:700; letter-spacing:.11em; opacity:.7; margin-top:9px; }
 .clip-note .handwriting { font-size:1.7rem; rotate:-2deg; }
 .clip-note-hint { font-size:.76rem; line-height:1.5; opacity:.72; border-top:1px solid #25342733; padding-top:16px; }
 .clip-wall .clip-note .tape { rotate:2deg; }
-@media(max-width:1000px) {
-  .clip-wall { grid-template-columns:repeat(2,1fr); gap:46px 3.6%; }
+@media(max-width:1100px) {
+  .clip-wall { grid-template-columns:repeat(2,minmax(0,1fr)); gap:46px 3.6%; }
   .clip-note { grid-column:span 2; flex-direction:row; align-items:center; justify-content:space-between; gap:32px; rotate:0deg; padding:26px 28px; }
   .clip-note strong { font-size:3.4rem; }
   .clip-note .handwriting { font-size:1.5rem; rotate:0deg; max-width:300px; }
   .clip-note-hint { border-top:0; padding-top:0; max-width:230px; }
 }
 @media(max-width:760px) {
-  .clip-wall { grid-template-columns:1fr; gap:54px; margin-top:52px; padding:0 6px; }
-  .clip-feature .clip-media { aspect-ratio:16/9; }
-  .clip-feature,.clip-note { grid-column:auto; }
+  .clip-wall { grid-template-columns:1fr; gap:54px; max-width:390px; margin-top:52px; padding:0 6px; }
+  .clip-note { grid-column:auto; }
   .clip-note { flex-direction:column; align-items:flex-start; gap:19px; }
   .clip-note .handwriting { font-size:1.45rem; max-width:none; }
   .clip-note-hint { max-width:none; }

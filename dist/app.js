@@ -204,43 +204,149 @@
       letter.style.color=reset?'':i%2?'#8b314e':'#343a74';
     });
   });
-  // The clip wall: a poster first, the Drive player only when someone presses play.
+  // Real reels: start inline, muted; retain Drive's player and original file as fallbacks.
   const clipTiles=[...document.querySelectorAll('.clip')];
+  const clipStates=new WeakMap();
+  let automaticStarted=false;
+  function stopVideo(player){
+    if(player?.tagName!=='VIDEO')return;
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+  }
   function closeClip(tile){
-    if(!tile||!tile.classList.contains('is-playing'))return false;
-    tile.querySelector('.clip-player')?.replaceChildren();
-    const opener=tile.querySelector('.clip-open'),closer=tile.querySelector('.clip-close');
+    const state=clipStates.get(tile);
+    if(!state||!tile.classList.contains('is-playing'))return false;
+    clearTimeout(state.timer);
+    const player=state.player;
+    state.player=null;
+    stopVideo(player);
+    state.holder.replaceChildren();
+    state.holder.hidden=true;
+    state.holder.setAttribute('aria-busy','false');
     tile.classList.remove('is-playing');
-    if(opener)opener.hidden=false;
-    if(closer)closer.hidden=true;
+    state.opener.hidden=false;
+    state.opener.setAttribute('aria-expanded','false');
+    if(state.closer)state.closer.hidden=true;
     return true;
   }
-  clipTiles.forEach(tile=>{
-    const opener=tile.querySelector('.clip-open'),closer=tile.querySelector('.clip-close'),holder=tile.querySelector('.clip-player'),id=opener?.dataset.driveId;
-    if(!opener||!holder||!id)return;
-    opener.addEventListener('click',event=>{
-      event.preventDefault();
-      clipTiles.forEach(other=>{if(other!==tile)closeClip(other);});
+  function openClip(tile,automatic=false){
+    const state=clipStates.get(tile);
+    if(!state||tile.classList.contains('is-playing'))return;
+    automaticStarted=true;
+    clipTiles.forEach(other=>{if(other!==tile)closeClip(other);});
+    const {opener,closer,holder,id}=state;
+    state.automatic=automatic;
+    const status=document.createElement('div');
+    status.className='clip-status';
+    status.setAttribute('role','status');
+    status.textContent='Loading reel…';
+    const ready=()=>{
+      clearTimeout(state.timer);
+      status.hidden=true;
+      holder.setAttribute('aria-busy','false');
+    };
+    const openDrivePlayer=()=>{
+      if(!tile.classList.contains('is-playing')||state.player?.tagName==='IFRAME')return;
+      clearTimeout(state.timer);
+      const previous=state.player;
       const player=document.createElement('iframe');
-      player.src=`https://drive.google.com/file/d/${id}/preview?autoplay=1`;
+      state.player=player;
+      stopVideo(previous);
+      status.hidden=false;
+      status.textContent='Opening Drive player…';
+      holder.setAttribute('aria-busy','true');
       player.title=`${tile.querySelector('h3')?.textContent||'Client film'} — video`;
       player.allow='autoplay; fullscreen; encrypted-media; picture-in-picture';
       player.setAttribute('allowfullscreen','');
-      holder.replaceChildren(player);
-      tile.classList.add('is-playing');
-      opener.hidden=true;
-      if(closer){closer.hidden=false;closer.focus();}
-      requestAnimationFrame(measure);
+      player.addEventListener('load',()=>{if(state.player===player)ready();},{once:true});
+      player.src=`https://drive.google.com/file/d/${id}/preview?autoplay=1&mute=1`;
+      holder.replaceChildren(player,status);
+      state.timer=setTimeout(()=>{
+        if(state.player!==player)return;
+        holder.setAttribute('aria-busy','false');
+        status.textContent='If Drive does not load, use “Open in Drive” below.';
+      },12000);
+    };
+    const player=document.createElement('video');
+    player.controls=true;
+    player.autoplay=true;
+    player.muted=true;
+    player.defaultMuted=true;
+    player.playsInline=true;
+    player.loop=true;
+    player.preload='metadata';
+    player.setAttribute('aria-label',opener.getAttribute('aria-label')||'Client reel');
+    const poster=tile.querySelector('.clip-poster');
+    if(poster?.naturalWidth)player.poster=poster.currentSrc||poster.src;
+    state.player=player;
+    player.addEventListener('canplay',()=>{if(state.player===player)ready();});
+    player.addEventListener('playing',()=>{if(state.player===player)ready();});
+    player.addEventListener('error',()=>{if(state.player===player)openDrivePlayer();},{once:true});
+    player.src=opener.dataset.videoSrc||`https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`;
+    holder.replaceChildren(player,status);
+    // The old implementation inserted a player but left this container hidden.
+    holder.hidden=false;
+    holder.setAttribute('aria-busy','true');
+    tile.classList.add('is-playing');
+    opener.hidden=true;
+    opener.setAttribute('aria-expanded','true');
+    if(closer){closer.hidden=false;if(!automatic)closer.focus();}
+    state.timer=setTimeout(openDrivePlayer,12000);
+    player.play().catch(error=>{
+      if(state.player!==player||!tile.classList.contains('is-playing')||error.name==='AbortError')return;
+      if(error.name==='NotAllowedError'){
+        clearTimeout(state.timer);
+        holder.setAttribute('aria-busy','false');
+        status.hidden=false;
+        status.textContent='Tap the player’s Play button to start.';
+      }else openDrivePlayer();
     });
+    requestAnimationFrame(measure);
+  }
+  clipTiles.forEach((tile,index)=>{
+    const opener=tile.querySelector('.clip-open'),closer=tile.querySelector('.clip-close'),holder=tile.querySelector('.clip-player'),id=opener?.dataset.driveId;
+    if(!opener||!holder||!id)return;
+    clipStates.set(tile,{opener,closer,holder,id,player:null,timer:null,automatic:false});
+    holder.id=`clip-player-${index+1}`;
+    opener.setAttribute('role','button');
+    opener.setAttribute('aria-controls',holder.id);
+    opener.setAttribute('aria-expanded','false');
+    opener.addEventListener('click',event=>{event.preventDefault();openClip(tile);});
+    opener.addEventListener('keydown',event=>{if(event.key===' '){event.preventDefault();opener.click();}});
     closer?.addEventListener('click',()=>{
       if(closeClip(tile)){opener.focus();requestAnimationFrame(measure);}
     });
+    const source=document.createElement('a');
+    source.className='clip-source';
+    source.href=opener.href;
+    source.target='_blank';
+    source.rel='noopener noreferrer';
+    source.textContent='Open in Drive';
+    source.setAttribute('aria-label',`Open ${tile.querySelector('h3')?.textContent||'the film'} in Google Drive`);
+    tile.querySelector('.project-caption>div')?.append(source);
+    const poster=tile.querySelector('.clip-poster');
+    if(poster){
+      const checkPoster=()=>tile.classList.toggle('is-posterless',poster.classList.contains('is-missing'));
+      // Wait for the inline retry before deciding both thumbnail hosts failed.
+      poster.addEventListener('error',()=>queueMicrotask(checkPoster));
+      poster.addEventListener('load',()=>{poster.classList.remove('is-missing');checkPoster();});
+      checkPoster();
+    }
   });
-  // If Drive will not hand over a still (private file, blocked host), fall back to a titled card.
-  document.addEventListener('error',event=>{
-    const target=event.target;
-    if(target?.classList?.contains('clip-poster'))target.closest('.clip')?.classList.add('is-posterless');
-  },true);
+  // Only the first visible reel auto-starts, without sound or a focus jump.
+  // Do not download seven large originals in the background.
+  if(clipTiles.length){
+    const clipObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(!entry.isIntersecting&&clipStates.get(entry.target)?.automatic)closeClip(entry.target);
+      if(entry.target===clipTiles[0]&&entry.intersectionRatio>=.55&&!automaticStarted&&!paused&&!document.hidden)openClip(entry.target,true);
+    }),{threshold:[0,.55]});
+    clipTiles.forEach(tile=>clipObserver.observe(tile));
+  }
+  const stopAutomaticClips=()=>clipTiles.forEach(tile=>{if(clipStates.get(tile)?.automatic)closeClip(tile);});
+  motionButton?.addEventListener('click',()=>{if(paused)stopAutomaticClips();});
+  reduced.addEventListener('change',()=>{if(paused)stopAutomaticClips();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAutomaticClips();});
   document.addEventListener('keydown',event=>{
     if(event.key!=='Escape')return;
     clipTiles.forEach(tile=>{
