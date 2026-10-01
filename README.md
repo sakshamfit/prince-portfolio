@@ -27,6 +27,12 @@ Open `http://localhost:8080`. Use a web server rather than opening HTML files di
 
 This is a complete static site with no package installation, build step, API keys, or external asset dependencies. Set the host's publish/output directory to `dist`, leave the build command empty, and serve its contents from the domain root. Keep the `projects` and `assets` directories intact.
 
+### Vercel
+
+`vercel.json` in the repository root pins the settings Vercel needs: Framework Preset **Other** (`framework: null`), no install or build command, and **`outputDirectory: "dist"`**. Without an explicit output directory Vercel serves `public/` if it exists and the repository root otherwise — the repository root has no `index.html`, so every URL returns `404: NOT_FOUND` even though the deployment reports success.
+
+If the Vercel project was imported with a **Root Directory** other than the repository root, reset it to the repository root so `vercel.json` is read, then redeploy. Changing the setting in the dashboard (Settings → Build and Deployment → Output Directory → `dist`) or re-running the deployment after this file lands both work; the value in `vercel.json` takes precedence over the dashboard.
+
 ## What's included
 
 Full project navigation, archive filters, keyboard-operable experience tabs, pause-motion preference, pointer parallax, draggable stationery, off-screen object entrances, directional card reveals, a scroll-scrubbed three-step editing process (review → assembly → grade and delivery), interactive typography and colour experiments, and reduced-motion support. The process sequence renders as a normal readable stack when motion is paused.
