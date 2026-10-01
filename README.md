@@ -1,8 +1,8 @@
 # PRINCE — a video editor's edit bay
 
-A responsive, six-page portfolio for **Prince, a video editor**, built on the green cutting-mat design language: tactile studio stationery, a scroll-scrubbed three-step process, and motion that stays out of the way. Serve the `dist` directory with any static web server. There is no build step and no runtime dependency. Links use root-relative paths.
+A responsive, six-page portfolio for **Prince, a video editor**, built on the green cutting-mat design language: tactile studio stationery, a scroll-scrubbed three-step process, a familiar edit-bay visual, and motion that stays out of the way. Serve the `dist` directory with any static web server. There is no build step and no runtime dependency. Links use root-relative paths.
 
-The homepage lives in `dist/index.html`; the archive and biography are `dist/work.html` and `dist/about.html`. Three complete case studies live in `dist/projects/`: FORME (fashion campaign film), SONAR (brand film with sound and motion) and Daylight (product launch film). Shared styles and interactions are in `dist/styles.css`, `dist/expanded.css` and `dist/app.js`. Optimized original imagery and self-hosted fonts live in `dist/assets`.
+The homepage lives in `dist/index.html`; the archive and biography are `dist/work.html` and `dist/about.html`. Three complete case studies live in `dist/projects/`: FORME (fashion campaign film), SONAR (brand film with sound and motion) and Daylight (product launch film). Shared styles and interactions are in `dist/styles.css`, `dist/expanded.css` and `dist/app.js`. Optimized original imagery—including edit-suite and editing-detail photographs—and self-hosted fonts live in `dist/assets`.
 
 ## Editing the content
 

@@ -15,6 +15,16 @@
       "key": "sonar-campaign",
       "transparent_background": false,
       "prompt": "Use case: ads-marketing\nAsset type: landscape 1536x1024 campaign image for audio e-commerce concept SONAR.\nPrimary request: high-end photorealistic cobalt blue and chrome over-ear headphones floating over a saturated cornflower blue background with a tiny lime light accent.\nComposition: frontal three-quarter shot, strong sculptural silhouette, crisp reflective material, bold independent designer art direction.\nLighting: polished studio campaign lighting, high-end physical material realism, tiny lime highlight accent.\nConstraints: no text, no logo, no interface, no watermark, no additional products."
+    },
+    {
+      "key": "edit-bay",
+      "transparent_background": false,
+      "prompt": "Wide editorial photograph for a video editor's portfolio: a young adult South Asian man in his mid-twenties, seen from a natural side/back angle, focused on editing at a tidy desktop workstation. The large monitor shows a generic professional editing interface with a cinematic preview, stacked video tracks, thumbnail clips, audio waveform, timeline ruler and subtle color scope. Include over-ear headphones, jog/shuttle control, editing keyboard and notebook. Forest-green accents, warm amber light, authentic creative studio. Horizontal 3:2 composition; no brand logos, readable software text or watermark."
+    },
+    {
+      "key": "edit-gear",
+      "transparent_background": false,
+      "prompt": "Wide editorial close-up photograph of a video editor's hands on a jog/shuttle wheel and editing keyboard, headphones and a notebook on the desk, with a generic multitrack video timeline and audio waveform on the monitor in the background. Forest-green and warm amber studio palette, tactile cinematic realism, horizontal 3:2 composition. No faces, brand logos, readable interface text or watermark."
     }
   ]
 }
